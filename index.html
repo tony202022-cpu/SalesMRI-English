@@ -1,0 +1,1088 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales Skills MRI Assessment</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #f59e0b;
+            --light: #f8fafc;
+            --dark: #1e293b;
+            --success: #10b981;
+            --danger: #ef4444;
+            --gray: #64748b;
+            --gray-light: #e2e8f0;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f1f5f9;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            padding: 30px 0;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-align: center;
+            text-decoration: none;
+        }
+        
+        .btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-secondary {
+            background-color: var(--secondary);
+        }
+        
+        .btn-secondary:hover {
+            background-color: #e5940c;
+        }
+        
+        .btn-block {
+            display: block;
+            width: 100%;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .welcome-screen, .question-screen, .results-screen {
+            text-align: center;
+        }
+        
+        .welcome-screen p {
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+        
+        .features {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin: 30px 0;
+        }
+        
+        .feature {
+            flex: 1;
+            min-width: 200px;
+            margin: 10px;
+            padding: 20px;
+            background-color: var(--light);
+            border-radius: 8px;
+        }
+        
+        .feature i {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        
+        .timer {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+        
+        .question {
+            font-size: 1.3rem;
+            margin-bottom: 25px;
+            font-weight: 600;
+        }
+        
+        .options {
+            text-align: left;
+        }
+        
+        .option {
+            padding: 15px;
+            margin-bottom: 10px;
+            border: 2px solid var(--gray-light);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .option:hover {
+            border-color: var(--primary);
+            background-color: rgba(37, 99, 235, 0.05);
+        }
+        
+        .option.selected {
+            border-color: var(--primary);
+            background-color: rgba(37, 99, 235, 0.1);
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background-color: var(--gray-light);
+            border-radius: 4px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background-color: var(--primary);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        
+        .question-counter {
+            margin-bottom: 10px;
+            color: var(--gray);
+        }
+        
+        .results-header {
+            margin-bottom: 30px;
+        }
+        
+        .score-display {
+            font-size: 3rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin: 20px 0;
+        }
+        
+        .competency-chart {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin: 30px 0;
+        }
+        
+        .competency {
+            display: flex;
+            align-items: center;
+        }
+        
+        .competency-name {
+            width: 200px;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        .competency-bar {
+            flex: 1;
+            height: 20px;
+            background-color: var(--gray-light);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .competency-fill {
+            height: 100%;
+            background-color: var(--primary);
+            border-radius: 10px;
+            width: 0%;
+            transition: width 1s ease;
+        }
+        
+        .competency-score {
+            width: 60px;
+            text-align: right;
+            font-weight: 600;
+        }
+        
+        .swot-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .swot-box {
+            padding: 20px;
+            border-radius: 8px;
+            text-align: left;
+        }
+        
+        .swot-box h3 {
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid;
+        }
+        
+        .strengths {
+            border-color: var(--success);
+            background-color: rgba(16, 185, 129, 0.1);
+        }
+        
+        .weaknesses {
+            border-color: var(--danger);
+            background-color: rgba(239, 68, 68, 0.1);
+        }
+        
+        .opportunities {
+            border-color: var(--secondary);
+            background-color: rgba(245, 158, 11, 0.1);
+        }
+        
+        .threats {
+            border-color: var(--gray);
+            background-color: rgba(100, 116, 139, 0.1);
+        }
+        
+        .recommendations {
+            text-align: left;
+            margin: 30px 0;
+        }
+        
+        .recommendation-item {
+            margin-bottom: 15px;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .recommendation-item:before {
+            content: "•";
+            color: var(--primary);
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+        
+        @media (max-width: 768px) {
+            .swot-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Sales Skills MRI</h1>
+            <p class="subtitle">A Deep Diagnostic Assessment for Outdoor Sales Professionals</p>
+        </header>
+        
+        <!-- Welcome Screen -->
+        <div id="welcomeScreen" class="card welcome-screen">
+            <h2>Discover Your Sales DNA</h2>
+            <p>This 30-question assessment will analyze your natural sales behaviors and provide a comprehensive report on your strengths and development areas.</p>
+            
+            <div class="features">
+                <div class="feature">
+                    <i>⏱️</i>
+                    <h3>75s Per Question</h3>
+                    <p>Timed to capture your instinctive responses</p>
+                </div>
+                <div class="feature">
+                    <i>📊</i>
+                    <h3>7 Core Competencies</h3>
+                    <p>Detailed analysis across key sales dimensions</p>
+                </div>
+                <div class="feature">
+                    <i>📋</i>
+                    <h3>Personalized SWOT</h3>
+                    <p>Clear insights into your unique profile</p>
+                </div>
+            </div>
+            
+            <p><strong>Important:</strong> There are no right or wrong answers. Select the option that best reflects what you would actually do in each situation.</p>
+            
+            <button id="startBtn" class="btn btn-block" style="margin-top: 30px;">Begin Assessment</button>
+        </div>
+        
+        <!-- Question Screen -->
+        <div id="questionScreen" class="card question-screen hidden">
+            <div class="timer" id="timer">01:15</div>
+            <div class="question-counter" id="questionCounter">Question 1 of 30</div>
+            <div class="progress-bar">
+                <div class="progress" id="progressBar"></div>
+            </div>
+            
+            <div class="question" id="questionText"></div>
+            
+            <div class="options" id="optionsContainer">
+                <!-- Options will be populated by JavaScript -->
+            </div>
+            
+            <button id="nextBtn" class="btn btn-block" style="margin-top: 20px;" disabled>Next Question</button>
+        </div>
+        
+        <!-- Results Screen -->
+        <div id="resultsScreen" class="card results-screen hidden">
+            <div class="results-header">
+                <h2>Your Sales Skills MRI Report</h2>
+                <p>Here's your comprehensive analysis based on your responses</p>
+            </div>
+            
+            <div class="score-display" id="overallScore">0%</div>
+            <p>Overall Sales Competency Score</p>
+            
+            <div class="competency-chart" id="competencyChart">
+                <!-- Competency bars will be populated by JavaScript -->
+            </div>
+            
+            <div class="swot-grid">
+                <div class="swot-box strengths">
+                    <h3>Strengths</h3>
+                    <ul id="strengthsList">
+                        <!-- Strengths will be populated by JavaScript -->
+                    </ul>
+                </div>
+                <div class="swot-box weaknesses">
+                    <h3>Weaknesses</h3>
+                    <ul id="weaknessesList">
+                        <!-- Weaknesses will be populated by JavaScript -->
+                    </ul>
+                </div>
+                <div class="swot-box opportunities">
+                    <h3>Opportunities</h3>
+                    <ul id="opportunitiesList">
+                        <!-- Opportunities will be populated by JavaScript -->
+                    </ul>
+                </div>
+                <div class="swot-box threats">
+                    <h3>Threats</h3>
+                    <ul id="threatsList">
+                        <!-- Threats will be populated by JavaScript -->
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="recommendations">
+                <h3>Recommendations for Growth</h3>
+                <div id="recommendationsList">
+                    <!-- Recommendations will be populated by JavaScript -->
+                </div>
+            </div>
+            
+            <div class="action-buttons">
+                <button id="downloadBtn" class="btn">Download PDF Report</button>
+                <button id="emailBtn" class="btn btn-secondary">Email My Report</button>
+                <button id="upsellBtn" class="btn">Upgrade to Advanced Profile</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Assessment questions with scoring weights for 7 competencies
+        // [Mindset, Opening, Needs, Solution, Objections, Closing, Follow-up]
+        const questions = [
+            {
+                text: "You arrive for a scheduled meeting with a prospect. The receptionist informs you they've been called into an urgent meeting and can only give you 5 minutes instead of 30. What is your immediate reaction?",
+                options: [
+                    { text: "\"Thank you, 5 minutes is perfect. I can quickly share the most impactful point.\"", weights: [2, 4, 1, 1, 1, 1, 0] },
+                    { text: "\"I understand. Let's reschedule for a time when we can have a proper, focused discussion.\"", weights: [1, 1, 2, 0, 2, 0, 4] },
+                    { text: "\"Could I at least leave my materials with you and have a 2-minute call tomorrow?\"", weights: [3, 2, 1, 0, 1, 0, 3] },
+                    { text: "\"No problem. I'll use the 5 minutes to build rapport and schedule the next steps.\"", weights: [2, 3, 2, 1, 1, 2, 1] }
+                ]
+            },
+            {
+                text: "A potential client says, \"Your product sounds good, but I'm loyal to my current supplier.\" You respond with:",
+                options: [
+                    { text: "\"I respect that loyalty tremendously. What is it about them that earns your loyalty?\"", weights: [1, 1, 5, 1, 2, 0, 0] },
+                    { text: "\"Many of our clients said the same thing before they saw our ROI data. Can I show you?\"", weights: [2, 2, 1, 4, 1, 0, 0] },
+                    { text: "\"That's a common concern. Could I ask what would have to change for you to even consider an alternative?\"", weights: [1, 1, 4, 1, 3, 1, 0] },
+                    { text: "\"Understood. May I leave my card? Please think of me if they ever let you down.\"", weights: [1, 1, 0, 0, 0, 0, 4] }
+                ]
+            },
+            {
+                text: "After a seemingly great pitch, you ask for the sale. The prospect says, \"I need to think about it.\" You say:",
+                options: [
+                    { text: "\"Of course, it's a big decision. When would be a good time for me to follow up?\"", weights: [1, 0, 0, 0, 1, 2, 4] },
+                    { text: "\"Certainly. To help you think, what specific part do you need to ponder the most?\"", weights: [1, 0, 4, 0, 3, 2, 0] },
+                    { text: "\"I understand. Let me send you a one-page summary of the key benefits we discussed.\"", weights: [1, 0, 1, 2, 1, 0, 3] },
+                    { text: "\"Is it a matter of budget, timing, or is there something else I haven't addressed clearly?\"", weights: [1, 0, 3, 0, 4, 2, 0] }
+                ]
+            },
+            {
+                text: "A gatekeeper stops you and says, \"My boss is too busy and doesn't see anyone without an appointment.\" You:",
+                options: [
+                    { text: "\"I understand completely. Could you do me a small favor? Please just put my one-page case study on their desk?\"", weights: [3, 2, 0, 2, 1, 0, 2] },
+                    { text: "\"I specialize in helping busy people like your boss save time. What's the best way to get a 15-minute appointment?\"", weights: [2, 4, 1, 1, 1, 1, 0] },
+                    { text: "\"Who would be the right person to discuss reducing operational costs?\"", weights: [1, 3, 3, 0, 1, 0, 2] },
+                    { text: "\"Thank you. My name is [Name] with [Company]. May I ask your name? I'll call back in a few weeks.\"", weights: [2, 1, 0, 0, 0, 0, 5] }
+                ]
+            },
+            {
+                text: "It's pouring rain, your last three appointments cancelled, and you're behind target. You have one more cold call planned. You:",
+                options: [
+                    { text: "Go for it. The rain might mean less competition, and the person inside might appreciate the dedication.", weights: [5, 2, 1, 1, 1, 0, 0] },
+                    { text: "Reschedule it. Your energy is low, and you'll be more effective tomorrow with a fresh start.", weights: [2, 0, 0, 0, 0, 0, 3] },
+                    { text: "Switch to phone calls for the rest of the day from a dry location to re-energize.", weights: [3, 1, 1, 1, 1, 1, 2] },
+                    { text: "Take 15 minutes in a coffee shop to review your \"why\" and past success stories, then make the visit.", weights: [4, 2, 1, 1, 1, 1, 1] }
+                ]
+            },
+            {
+                text: "A prospect says, \"I tried a solution like this years ago and it was a complete waste of money.\" You:",
+                options: [
+                    { text: "\"I'm sorry to hear that. The technology has advanced dramatically since then. What was the biggest failing point?\"", weights: [1, 1, 4, 1, 3, 0, 0] },
+                    { text: "\"We hear that often. That's why we offer a 30-day proof-of-concept trial with no commitment.\"", weights: [2, 1, 1, 3, 2, 1, 0] },
+                    { text: "\"I understand your skepticism. Could you tell me what a successful outcome would look like for you today?\"", weights: [1, 1, 5, 1, 2, 1, 0] },
+                    { text: "\"That's frustrating. Many of our current clients were in your shoes. Let me show you three case studies.\"", weights: [1, 2, 2, 4, 1, 0, 0] }
+                ]
+            },
+            {
+                text: "When preparing for a first meeting with a new prospect, you spend the most time:",
+                options: [
+                    { text: "Researching their company, industry trends, and potential pain points on LinkedIn and their website.", weights: [1, 2, 5, 1, 1, 0, 0] },
+                    { text: "Perfecting and rehearsing the first 5 minutes of your presentation to grab their attention.", weights: [1, 4, 1, 3, 1, 0, 0] },
+                    { text: "Preparing a list of insightful, open-ended questions to uncover their real needs.", weights: [1, 2, 5, 1, 1, 0, 1] },
+                    { text: "Customizing a few slides of your deck to directly address their specific industry.", weights: [1, 2, 2, 4, 1, 0, 0] }
+                ]
+            },
+            {
+                text: "A client says, \"Your price is 20% higher than your competitor.\" Your first response is:",
+                options: [
+                    { text: "\"Can you tell me more about what is included in their quote?\"", weights: [1, 0, 4, 0, 3, 1, 1] },
+                    { text: "\"Yes, and here's the return on investment that justifies the difference.\"", weights: [1, 0, 1, 4, 2, 2, 0] },
+                    { text: "\"What is the budget you had allocated for this solution?\"", weights: [1, 0, 3, 1, 2, 2, 1] },
+                    { text: "\"I understand price is important. What other factors are critical for your decision?\"", weights: [1, 0, 4, 1, 3, 1, 0] }
+                ]
+            },
+            {
+                text: "You're about to enter a business for a cold call. What's your primary goal for this first interaction?",
+                options: [
+                    { text: "To get a firm \"yes\" or \"no\" on the spot.", weights: [2, 3, 1, 2, 1, 4, 0] },
+                    { text: "To schedule a proper meeting with the decision-maker.", weights: [2, 4, 2, 1, 1, 2, 1] },
+                    { text: "To gather information about their current operations and pains.", weights: [1, 3, 5, 1, 1, 0, 0] },
+                    { text: "To leave a strong, memorable impression and your brochure.", weights: [1, 4, 1, 2, 1, 0, 2] }
+                ]
+            },
+            {
+                text: "After a successful first sale to a client, your follow-up process is:",
+                options: [
+                    { text: "A thank-you email and a check-in call in 3 months.", weights: [1, 0, 0, 0, 0, 1, 2] },
+                    { text: "A structured onboarding call to ensure they are successful.", weights: [1, 0, 1, 1, 1, 1, 5] },
+                    { text: "Adding them to your newsletter list for general updates.", weights: [1, 0, 0, 0, 0, 0, 3] },
+                    { text: "Asking for a referral or testimonial immediately while they are happy.", weights: [2, 0, 0, 0, 0, 2, 3] }
+                ]
+            },
+            {
+                text: "A long-time client is suddenly angry, claiming a delivery was late and it cost them a small account. You:",
+                options: [
+                    { text: "\"I am so sorry this happened. Let me pull up the details immediately and see exactly what occurred.\"", weights: [2, 0, 1, 0, 4, 0, 3] },
+                    { text: "\"I understand your frustration. Let's focus on what we can do right now to make it right with your customer.\"", weights: [2, 0, 1, 1, 4, 1, 2] },
+                    { text: "Listen quietly until they have fully vented all their frustration without interrupting them.", weights: [3, 0, 3, 0, 4, 0, 1] },
+                    { text: "\"Thank you for bringing this to my attention. I am escalating this to our service manager.\"", weights: [1, 0, 0, 0, 3, 0, 4] }
+                ]
+            },
+            {
+                text: "You have a fantastic new case study with a client in the same industry as your next prospect. How do you use it?",
+                options: [
+                    { text: "I lead with it as soon as I meet them: \"I helped XYZ Company achieve...\"", weights: [1, 4, 1, 3, 1, 0, 0] },
+                    { text: "I wait until they mention a specific challenge, then use the case study as a relevant example.", weights: [1, 1, 4, 3, 1, 0, 0] },
+                    { text: "I send it to them in a pre-meeting email to build credibility before I even arrive.", weights: [1, 3, 2, 3, 1, 0, 1] },
+                    { text: "I use it during my presentation as social proof for my key claims.", weights: [1, 1, 1, 4, 1, 1, 0] }
+                ]
+            },
+            {
+                text: "A prospect objects, \"I don't have the budget for this right now.\" You respond:",
+                options: [
+                    { text: "\"I understand. When does your budget cycle renew?\"", weights: [1, 0, 1, 0, 2, 1, 3] },
+                    { text: "\"Many of our clients found the ROI meant it paid for itself within 3 months. Can I show you how?\"", weights: [1, 0, 1, 4, 3, 2, 0] },
+                    { text: "\"What if we could break this into smaller, more manageable payments?\"", weights: [1, 0, 1, 2, 3, 3, 1] },
+                    { text: "\"Besides budget, is there anything else preventing you from moving forward?\"", weights: [1, 0, 3, 1, 3, 2, 0] }
+                ]
+            },
+            {
+                text: "You're in the middle of your presentation when you realize the prospect is distracted and checking their phone. You:",
+                options: [
+                    { text: "Pause and ask, \"Would you prefer to reschedule for a time when you can give this your full attention?\"", weights: [2, 1, 1, 0, 2, 0, 1] },
+                    { text: "Ask an engaging question to bring them back into the conversation: \"How does this relate to your current challenges?\"", weights: [2, 1, 4, 1, 2, 0, 0] },
+                    { text: "Power through your presentation but pick up the pace to finish quickly.", weights: [1, 1, 1, 3, 1, 1, 0] },
+                    { text: "Stop and say, \"I notice I might have lost you. Is there something more pressing we should address?\"", weights: [3, 1, 4, 1, 2, 0, 0] }
+                ]
+            },
+            {
+                text: "After a good first meeting, the prospect says, \"This looks interesting. Send me some information and I'll get back to you.\" You:",
+                options: [
+                    { text: "\"Great! I'll email you our brochure and pricing today.\"", weights: [1, 0, 0, 2, 0, 1, 3] },
+                    { text: "\"I'm happy to. To make sure I send the most relevant information, what specifically caught your interest?\"", weights: [1, 0, 4, 1, 1, 1, 2] },
+                    { text: "\"Certainly. I'll follow up in a week to see if you have any questions.\"", weights: [1, 0, 0, 0, 0, 1, 4] },
+                    { text: "\"I can do that. Would it be better if we scheduled a quick 10-minute call next week to review it together?\"", weights: [1, 1, 1, 1, 1, 3, 2] }
+                ]
+            },
+            {
+                text: "A prospect keeps rescheduling your meeting for the third time. You:",
+                options: [
+                    { text: "Politely insist that this is an important conversation and ask for a firm commitment.", weights: [3, 1, 0, 0, 2, 1, 1] },
+                    { text: "Ask if there's something preventing them from having this conversation right now.", weights: [2, 0, 4, 0, 3, 0, 1] },
+                    { text: "Accept the reschedule but suggest a shorter 15-minute call instead.", weights: [2, 1, 1, 1, 1, 1, 2] },
+                    { text: "Send them relevant content via email and pause further pursuit until they re-engage.", weights: [1, 0, 0, 1, 0, 0, 3] }
+                ]
+            },
+            {
+                text: "You're competing against a well-established competitor. The prospect asks, \"Why should I choose you over them?\" You:",
+                options: [
+                    { text: "\"While they're a good company, we specialize specifically in your industry.\"", weights: [1, 1, 1, 3, 2, 1, 0] },
+                    { text: "\"Rather than talk about them, let me focus on what we can do for you specifically.\"", weights: [2, 1, 1, 3, 2, 1, 0] },
+                    { text: "\"What specific concerns do you have about our solution?\"", weights: [1, 0, 4, 1, 3, 1, 0] },
+                    { text: "\"Many of our clients switched from them. Would you like to speak with one?\"", weights: [1, 1, 1, 3, 2, 1, 1] }
+                ]
+            },
+            {
+                text: "You've built good rapport but the decision-maker says, \"I need to run this by my partner/team.\" You:",
+                options: [
+                    { text: "\"Of course. When do you expect to discuss it with them?\"", weights: [1, 0, 0, 0, 1, 1, 3] },
+                    { text: "\"I'd be happy to join that meeting to answer any questions they might have.\"", weights: [2, 1, 1, 2, 2, 3, 1] },
+                    { text: "\"What specific concerns do you think they might raise?\"", weights: [1, 0, 4, 1, 3, 1, 0] },
+                    { text: "\"Great. I'll send you some additional information that might help with that conversation.\"", weights: [1, 0, 1, 2, 1, 1, 4] }
+                ]
+            },
+            {
+                text: "A prospect says, \"I'm interested but now isn't the right time.\" You respond:",
+                options: [
+                    { text: "\"I understand timing is everything. When would be a better time?\"", weights: [1, 0, 1, 0, 1, 1, 3] },
+                    { text: "\"Many of our clients thought the same thing, but found that delaying cost them $X. Can I show you?\"", weights: [2, 0, 1, 3, 3, 2, 0] },
+                    { text: "\"What would have to change for now to be the right time?\"", weights: [1, 0, 4, 1, 3, 1, 0] },
+                    { text: "\"No problem. I'll reach out again in 3 months to check in.\"", weights: [1, 0, 0, 0, 0, 0, 4] }
+                ]
+            },
+            {
+                text: "You're following up with a prospect who seemed very interested but hasn't responded to your last two emails. You:",
+                options: [
+                    { text: "Send one more email with a different subject line and valuable content.", weights: [2, 0, 0, 1, 0, 0, 3] },
+                    { text: "Pick up the phone and call them directly.", weights: [3, 1, 1, 1, 1, 1, 2] },
+                    { text: "Send a personalized video message referencing your previous conversation.", weights: [2, 1, 1, 1, 1, 1, 3] },
+                    { text: "Assume they're not interested and focus on new prospects.", weights: [1, 0, 0, 0, 0, 0, 1] }
+                ]
+            },
+            {
+                text: "During a negotiation, the prospect asks for a significant discount. You:",
+                options: [
+                    { text: "Stand firm on price but offer additional value or services instead.", weights: [3, 0, 0, 1, 3, 2, 1] },
+                    { text: "Ask what specific budget constraints are driving the request for a discount.", weights: [1, 0, 4, 0, 3, 1, 0] },
+                    { text: "Offer a smaller discount and emphasize the value they're receiving.", weights: [2, 0, 1, 2, 3, 2, 0] },
+                    { text: "Explain that your pricing is based on value and is the same for all clients.", weights: [2, 0, 1, 2, 3, 1, 0] }
+                ]
+            },
+            {
+                text: "You're meeting with a prospect who is constantly interrupting you. You:",
+                options: [
+                    { text: "Politely but firmly say, \"I appreciate your enthusiasm. If I could just finish this point...\"", weights: [3, 1, 1, 1, 2, 0, 0] },
+                    { text: "Stop talking and let them completely finish their thought before continuing.", weights: [3, 1, 3, 0, 2, 0, 0] },
+                    { text: "Adjust your approach to make your points more concise and interactive.", weights: [2, 1, 2, 2, 2, 0, 0] },
+                    { text: "Ask them directly, \"It seems you have some specific concerns. Would you like to address those first?\"", weights: [2, 1, 4, 1, 3, 0, 0] }
+                ]
+            },
+            {
+                text: "A satisfied client refers you to a colleague, but that colleague is very skeptical. You:",
+                options: [
+                    { text: "Lean heavily on the referral: \"Your colleague [Name] was very happy with our work.\"", weights: [1, 3, 1, 2, 1, 0, 1] },
+                    { text: "Acknowledge their skepticism and ask what specifically they're doubtful about.", weights: [2, 1, 4, 1, 3, 0, 0] },
+                    { text: "Focus on building rapport and understanding their unique challenges first.", weights: [1, 3, 4, 1, 2, 0, 0] },
+                    { text: "Share case studies and data to overcome their skepticism with evidence.", weights: [1, 1, 2, 4, 2, 0, 0] }
+                ]
+            },
+            {
+                text: "You're about to ask for the sale. How do you typically approach it?",
+                options: [
+                    { text: "I use assumptive language: \"So shall we get started with the onboarding process?\"", weights: [2, 0, 0, 0, 1, 4, 1] },
+                    { text: "I summarize the value and then directly ask for their business.", weights: [2, 0, 0, 2, 1, 4, 1] },
+                    { text: "I ask a trial closing question first: \"Does this solution address your main concerns?\"", weights: [1, 0, 2, 1, 1, 4, 1] },
+                    { text: "I present different options and let them choose which one they prefer.", weights: [1, 0, 1, 2, 1, 3, 1] }
+                ]
+            },
+            {
+                text: "After losing a sale to a competitor, you:",
+                options: [
+                    { text: "Ask for feedback on why you didn't win the business.", weights: [3, 0, 3, 0, 1, 0, 1] },
+                    { text: "Add them to your nurture sequence for future opportunities.", weights: [2, 0, 0, 0, 0, 0, 4] },
+                    { text: "Analyze what you could have done differently in the sales process.", weights: [3, 0, 2, 1, 1, 0, 1] },
+                    { text: "Quickly move on to the next prospect without dwelling on the loss.", weights: [4, 0, 0, 0, 0, 0, 0] }
+                ]
+            },
+            {
+                text: "A prospect asks a technical question you don't know the answer to. You:",
+                options: [
+                    { text: "\"That's a great question. I don't have that information handy but I'll find out and get back to you today.\"", weights: [2, 0, 1, 1, 2, 0, 3] },
+                    { text: "\"I want to make sure I give you the most accurate information. Let me connect you with our technical expert.\"", weights: [2, 0, 1, 1, 2, 0, 3] },
+                    { text: "Make an educated guess based on your knowledge of similar situations.", weights: [1, 0, 0, 2, 1, 0, 0] },
+                    { text: "Deflect by focusing on a different aspect you're more comfortable with.", weights: [1, 0, 0, 1, 1, 0, 0] }
+                ]
+            },
+            {
+                text: "You're having a great conversation but the prospect says, \"I'm not the decision-maker on this.\" You:",
+                options: [
+                    { text: "\"I appreciate your honesty. Who would be the right person to include in this conversation?\"", weights: [1, 1, 1, 0, 1, 0, 2] },
+                    { text: "\"I understand. Based on our conversation, do you think this is something that would benefit your organization?\"", weights: [1, 0, 3, 1, 1, 0, 1] },
+                    { text: "\"No problem. Could you introduce me to the decision-maker?\"", weights: [2, 1, 1, 0, 1, 0, 2] },
+                    { text: "\"You may not be the final decision-maker, but I value your opinion. What's your recommendation?\"", weights: [1, 0, 3, 1, 1, 0, 1] }
+                ]
+            },
+            {
+                text: "You're in a competitive situation and the prospect is comparing multiple vendors. How do you differentiate?",
+                options: [
+                    { text: "Focus on building the strongest relationship and rapport.", weights: [1, 3, 2, 1, 1, 1, 1] },
+                    { text: "Deeply understand their unique needs and customize your solution accordingly.", weights: [1, 1, 5, 3, 1, 1, 1] },
+                    { text: "Emphasize your unique features and superior technology.", weights: [1, 1, 1, 4, 1, 1, 0] },
+                    { text: "Provide overwhelming evidence of ROI and case studies.", weights: [1, 1, 2, 4, 1, 1, 1] }
+                ]
+            },
+            {
+                text: "At the end of a successful sales quarter, you primarily focus on:",
+                options: [
+                    { text: "Celebrating your wins and taking a well-deserved break.", weights: [3, 0, 0, 0, 0, 0, 0] },
+                    { text: "Analyzing what worked well to replicate it next quarter.", weights: [2, 0, 1, 1, 1, 1, 1] },
+                    { text: "Immediately starting to build pipeline for the next quarter.", weights: [4, 1, 1, 1, 1, 1, 1] },
+                    { text: "Strengthening relationships with existing clients for referrals and repeat business.", weights: [2, 0, 1, 1, 1, 1, 4] }
+                ]
+            },
+            {
+                text: "When facing repeated rejection in a day, how do you maintain motivation?",
+                options: [
+                    { text: "Remember your \"why\" and the long-term goal you're working toward.", weights: [5, 0, 0, 0, 0, 0, 0] },
+                    { text: "Focus on the activity, not the outcome - each no brings you closer to a yes.", weights: [4, 0, 0, 0, 0, 0, 0] },
+                    { text: "Take a short break to reset, then return with fresh energy.", weights: [4, 0, 0, 0, 0, 0, 0] },
+                    { text: "Review past successes and positive client feedback.", weights: [4, 0, 0, 0, 0, 0, 0] }
+                ]
+            },
+            {
+                text: "How do you typically prepare for a high-stakes sales meeting?",
+                options: [
+                    { text: "Research the company, decision-makers, and industry trends extensively.", weights: [1, 2, 4, 2, 1, 0, 0] },
+                    { text: "Practice and rehearse my presentation multiple times.", weights: [1, 3, 1, 4, 1, 1, 0] },
+                    { text: "Prepare a list of insightful questions to understand their business deeply.", weights: [1, 2, 5, 1, 1, 0, 0] },
+                    { text: "Mental preparation - visualization and positive self-talk.", weights: [4, 1, 1, 1, 1, 1, 0] }
+                ]
+            }
+        ];
+
+        // Competency names
+        const competencies = [
+            "Mindset & Resilience",
+            "Opening & Approach", 
+            "Needs Identification",
+            "Solution Presentation",
+            "Handling Objections",
+            "Closing & Commitment",
+            "Post-Interaction & Follow-up"
+        ];
+
+        // DOM elements
+        const welcomeScreen = document.getElementById('welcomeScreen');
+        const questionScreen = document.getElementById('questionScreen');
+        const resultsScreen = document.getElementById('resultsScreen');
+        const startBtn = document.getElementById('startBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const timerElement = document.getElementById('timer');
+        const questionCounter = document.getElementById('questionCounter');
+        const progressBar = document.getElementById('progressBar');
+        const questionText = document.getElementById('questionText');
+        const optionsContainer = document.getElementById('optionsContainer');
+        const overallScore = document.getElementById('overallScore');
+        const competencyChart = document.getElementById('competencyChart');
+        const strengthsList = document.getElementById('strengthsList');
+        const weaknessesList = document.getElementById('weaknessesList');
+        const opportunitiesList = document.getElementById('opportunitiesList');
+        const threatsList = document.getElementById('threatsList');
+        const recommendationsList = document.getElementById('recommendationsList');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const emailBtn = document.getElementById('emailBtn');
+        const upsellBtn = document.getElementById('upsellBtn');
+
+        // Assessment state
+        let currentQuestion = 0;
+        let userAnswers = [];
+        let timer;
+        let timeLeft = 75; // 75 seconds per question
+        let competencyScores = [0, 0, 0, 0, 0, 0, 0];
+
+        // Start the assessment
+        startBtn.addEventListener('click', startAssessment);
+
+        function startAssessment() {
+            welcomeScreen.classList.add('hidden');
+            questionScreen.classList.remove('hidden');
+            loadQuestion();
+            startTimer();
+        }
+
+        // Load a question
+        function loadQuestion() {
+            const question = questions[currentQuestion];
+            questionText.textContent = question.text;
+            questionCounter.textContent = `Question ${currentQuestion + 1} of ${questions.length}`;
+            progressBar.style.width = `${((currentQuestion + 1) / questions.length) * 100}%`;
+            
+            optionsContainer.innerHTML = '';
+            question.options.forEach((option, index) => {
+                const optionElement = document.createElement('div');
+                optionElement.className = 'option';
+                optionElement.textContent = option.text;
+                optionElement.dataset.index = index;
+                optionElement.addEventListener('click', selectOption);
+                optionsContainer.appendChild(optionElement);
+            });
+            
+            nextBtn.disabled = true;
+        }
+
+        // Select an option
+        function selectOption(e) {
+            const options = document.querySelectorAll('.option');
+            options.forEach(option => option.classList.remove('selected'));
+            e.target.classList.add('selected');
+            nextBtn.disabled = false;
+        }
+
+        // Move to next question
+        nextBtn.addEventListener('click', nextQuestion);
+
+        function nextQuestion() {
+            const selectedOption = document.querySelector('.option.selected');
+            if (selectedOption) {
+                const optionIndex = parseInt(selectedOption.dataset.index);
+                userAnswers.push(optionIndex);
+                
+                // Add weights to competency scores
+                const weights = questions[currentQuestion].options[optionIndex].weights;
+                weights.forEach((weight, index) => {
+                    competencyScores[index] += weight;
+                });
+                
+                currentQuestion++;
+                
+                if (currentQuestion < questions.length) {
+                    resetTimer();
+                    loadQuestion();
+                } else {
+                    showResults();
+                }
+            }
+        }
+
+        // Timer functions
+        function startTimer() {
+            timer = setInterval(updateTimer, 1000);
+        }
+
+        function updateTimer() {
+            timeLeft--;
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            timerElement.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            
+            if (timeLeft <= 0) {
+                clearInterval(timer);
+                // Auto-select a random option if time runs out
+                const options = document.querySelectorAll('.option');
+                if (options.length > 0) {
+                    const randomIndex = Math.floor(Math.random() * options.length);
+                    options[randomIndex].click();
+                }
+            }
+        }
+
+        function resetTimer() {
+            clearInterval(timer);
+            timeLeft = 75;
+            timerElement.textContent = '01:15';
+            startTimer();
+        }
+
+        // Show results
+        function showResults() {
+            questionScreen.classList.add('hidden');
+            resultsScreen.classList.remove('hidden');
+            
+            // Calculate overall score (average of competency percentages)
+            const maxPossibleScores = [120, 120, 120, 120, 120, 120, 120]; // Based on max possible points for each competency
+            const competencyPercentages = competencyScores.map((score, index) => 
+                Math.min(100, Math.round((score / maxPossibleScores[index]) * 100))
+            );
+            
+            const overallPercentage = Math.round(
+                competencyPercentages.reduce((sum, percentage) => sum + percentage, 0) / competencyPercentages.length
+            );
+            
+            overallScore.textContent = `${overallPercentage}%`;
+            
+            // Display competency bars
+            competencyChart.innerHTML = '';
+            competencyPercentages.forEach((percentage, index) => {
+                const competencyElement = document.createElement('div');
+                competencyElement.className = 'competency';
+                
+                const nameElement = document.createElement('div');
+                nameElement.className = 'competency-name';
+                nameElement.textContent = competencies[index];
+                
+                const barElement = document.createElement('div');
+                barElement.className = 'competency-bar';
+                
+                const fillElement = document.createElement('div');
+                fillElement.className = 'competency-fill';
+                fillElement.style.width = `${percentage}%`;
+                
+                const scoreElement = document.createElement('div');
+                scoreElement.className = 'competency-score';
+                scoreElement.textContent = `${percentage}%`;
+                
+                barElement.appendChild(fillElement);
+                competencyElement.appendChild(nameElement);
+                competencyElement.appendChild(barElement);
+                competencyElement.appendChild(scoreElement);
+                
+                competencyChart.appendChild(competencyElement);
+            });
+            
+            // Generate SWOT analysis
+            generateSWOT(competencyPercentages);
+            
+            // Generate recommendations
+            generateRecommendations(competencyPercentages);
+        }
+
+        // Generate SWOT analysis
+        function generateSWOT(percentages) {
+            // Find top and bottom competencies
+            const competencyIndices = percentages.map((_, index) => index);
+            competencyIndices.sort((a, b) => percentages[b] - percentages[a]);
+            
+            const strengths = competencyIndices.slice(0, 2);
+            const weaknesses = competencyIndices.slice(-2);
+            
+            // Populate strengths
+            strengthsList.innerHTML = '';
+            strengths.forEach(index => {
+                const li = document.createElement('li');
+                li.textContent = competencies[index];
+                strengthsList.appendChild(li);
+            });
+            
+            // Populate weaknesses
+            weaknessesList.innerHTML = '';
+            weaknesses.forEach(index => {
+                const li = document.createElement('li');
+                li.textContent = competencies[index];
+                weaknessesList.appendChild(li);
+            });
+            
+            // Generate opportunities based on weaknesses
+            opportunitiesList.innerHTML = '';
+            weaknesses.forEach(index => {
+                let opportunity = '';
+                switch(index) {
+                    case 0: opportunity = "Develop resilience techniques to handle rejection better"; break;
+                    case 1: opportunity = "Learn advanced opening strategies to make better first impressions"; break;
+                    case 2: opportunity = "Improve questioning techniques to uncover deeper client needs"; break;
+                    case 3: opportunity = "Enhance presentation skills to better connect features to benefits"; break;
+                    case 4: opportunity = "Master objection handling frameworks to turn resistance into opportunity"; break;
+                    case 5: opportunity = "Practice closing techniques to increase conversion rates"; break;
+                    case 6: opportunity = "Systematize follow-up processes to maximize long-term value"; break;
+                }
+                const li = document.createElement('li');
+                li.textContent = opportunity;
+                opportunitiesList.appendChild(li);
+            });
+            
+            // Generate threats based on weaknesses
+            threatsList.innerHTML = '';
+            weaknesses.forEach(index => {
+                let threat = '';
+                switch(index) {
+                    case 0: threat = "Risk of burnout from repeated rejection without proper coping mechanisms"; break;
+                    case 1: threat = "Missing opportunities by failing to establish credibility quickly"; break;
+                    case 2: threat = "Pitching solutions that don't address the client's real problems"; break;
+                    case 3: threat = "Clients not seeing the value in your offerings compared to competitors"; break;
+                    case 4: threat = "Losing deals that could be saved with better objection handling"; break;
+                    case 5: threat = "Leaving money on the table by not asking for commitment"; break;
+                    case 6: threat = "Missing out on repeat business and referrals from existing clients"; break;
+                }
+                const li = document.createElement('li');
+                li.textContent = threat;
+                threatsList.appendChild(li);
+            });
+        }
+
+        // Generate recommendations
+        function generateRecommendations(percentages) {
+            recommendationsList.innerHTML = '';
+            
+            // Find the weakest competency
+            let weakestIndex = 0;
+            let lowestScore = 100;
+            
+            percentages.forEach((score, index) => {
+                if (score < lowestScore) {
+                    lowestScore = score;
+                    weakestIndex = index;
+                }
+            });
+            
+            let recommendations = [];
+            
+            // Recommendations based on weakest area
+            switch(weakestIndex) {
+                case 0: // Mindset & Resilience
+                    recommendations = [
+                        "Practice daily affirmation and visualization techniques",
+                        "Develop a post-rejection ritual to reset mentally",
+                        "Track small wins to maintain motivation during tough periods",
+                        "Create a 'bounce-back' plan for dealing with difficult days"
+                    ];
+                    break;
+                case 1: // Opening & Approach
+                    recommendations = [
+                        "Research prospects thoroughly before initial contact",
+                        "Develop 3 different opening strategies for different scenarios",
+                        "Practice delivering your value proposition in 30 seconds or less",
+                        "Use social proof and referrals to build immediate credibility"
+                    ];
+                    break;
+                case 2: // Needs Identification
+                    recommendations = [
+                        "Prepare 5-7 open-ended questions for every meeting",
+                        "Practice active listening without interrupting",
+                        "Use the '5 Whys' technique to uncover root problems",
+                        "Take detailed notes and play back your understanding"
+                    ];
+                    break;
+                case 3: // Solution Presentation
+                    recommendations = [
+                        "Create a 'problem-solution-benefit' framework for your pitch",
+                        "Incorporate more stories and case studies into presentations",
+                        "Practice explaining complex concepts in simple terms",
+                        "Customize every presentation to address specific client pains"
+                    ];
+                    break;
+                case 4: // Handling Objections
+                    recommendations = [
+                        "Develop responses for the 5 most common objections you face",
+                        "Practice the 'Feel, Felt, Found' method for handling concerns",
+                        "Role-play objection scenarios with a colleague weekly",
+                        "Anticipate objections and address them proactively"
+                    ];
+                    break;
+                case 5: // Closing & Commitment
+                    recommendations = [
+                        "Incorporate trial closes throughout your conversation",
+                        "Practice asking for the business in 3 different ways",
+                        "Set clear next steps at the end of every meeting",
+                        "Create a sense of urgency without being pushy"
+                    ];
+                    break;
+                case 6: // Post-Interaction & Follow-up
+                    recommendations = [
+                        "Create a systematic follow-up schedule for all prospects",
+                        "Personalize your follow-up messages with specific details",
+                        "Provide value in every follow-up (article, tip, introduction)",
+                        "Use multiple channels (phone, email, social) for follow-up"
+                    ];
+                    break;
+            }
+            
+            // Add general recommendations
+            recommendations.push(
+                "Schedule 30 minutes weekly for skill development",
+                "Find a sales accountability partner to review progress with",
+                "Record and review your sales conversations to identify improvement areas"
+            );
+            
+            // Display recommendations
+            recommendations.forEach(rec => {
+                const div = document.createElement('div');
+                div.className = 'recommendation-item';
+                div.textContent = rec;
+                recommendationsList.appendChild(div);
+            });
+        }
+
+        // Button event handlers for results screen
+        downloadBtn.addEventListener('click', () => {
+            alert('PDF download functionality would be implemented here. In a full implementation, this would generate a PDF report.');
+            // In practice, you would use a library like jsPDF or html2pdf.js
+        });
+
+        emailBtn.addEventListener('click', () => {
+            alert('Email functionality would be implemented here. This would send the report to the user and a copy to your database.');
+            // In practice, you would integrate with an email service or use a backend
+        });
+
+        upsellBtn.addEventListener('click', () => {
+            alert('Redirecting to advanced assessment upsell page. This would take users to your premium offer.');
+            // In practice: window.location.href = 'https://your-upsell-page.com';
+        });
+
+        // Prevent copy-paste and right-click to minimize cheating
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+        
+        document.addEventListener('copy', function(e) {
+            e.preventDefault();
+        });
+        
+        document.addEventListener('cut', function(e) {
+            e.preventDefault();
+        });
+    </script>
+</body>
+</html>
